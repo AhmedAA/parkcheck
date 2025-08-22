@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Icon_Parktype</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon_Parktype" fill-rule="nonzero">
+            <g id="noun_Parking_122314" transform="translate(9.000000, 9.000000)">
+                <path d="M12,24 C5.38305882,24 0,18.6169412 0,12 C0,5.38305882 5.38305882,0 12,0 C18.6169412,0 24,5.38305882 24,12 C24,18.6169412 18.6169412,24 12,24 Z" id="Shape" fill="#1D9CEB"></path>
+                <path d="M12,24 C5.38305882,24 0,18.6169412 0,12 C0,5.38305882 5.38305882,0 12,0 C18.6169412,0 24,5.38305882 24,12 C24,18.6169412 18.6169412,24 12,24 Z" id="Shape-Copy" stroke="#FFFFFF" fill="#1D9CEB"></path>
+                <rect id="Rectangle" fill="#FFFFFF" x="9.17647059" y="7.05882353" width="1.41176471" height="11.2941176"></rect>
+                <path d="M13.3630588,13.4117647 L9.17647059,13.4117647 L9.17647059,6.35294118 L13.3630588,6.35294118 C14.9463529,6.35294118 16.2352941,7.61929412 16.2352941,9.17647059 L16.2352941,10.6835294 C16.2352941,12.2131765 14.9731765,13.4117647 13.3630588,13.4117647 Z M10.5882353,12 L13.3630588,12 C14.1818824,12 14.8235294,11.4218824 14.8235294,10.6835294 L14.8235294,9.17647059 C14.8235294,8.41129412 14.1543529,7.76470588 13.3630588,7.76470588 L10.5882353,7.76470588 L10.5882353,12 Z" id="Shape" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

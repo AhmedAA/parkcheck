@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Icon_LocationPin</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Icon_LocationPin" stroke="#FFFFFF">
+            <g id="Group" transform="translate(11.000000, 6.000000)">
+                <path d="M19.8375,10.30625 C19.8375,15.625 10.15625,30 10.15625,30 C10.15625,30 0.475,15.625 0.475,10.30625 C0.475,4.95599149 4.81224149,0.61875 10.1625,0.61875 C15.5127585,0.61875 19.85,4.95599149 19.85,10.30625 L19.8375,10.30625 Z" id="Path" fill="#1D9CEB"></path>
+                <circle id="Oval" cx="10.15625" cy="9.96875" r="3.3375"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
