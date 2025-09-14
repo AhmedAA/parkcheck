@@ -11,4 +11,8 @@ const pwaConfig = {
   skipWaiting: true,
 };
 
-export default withPWA(pwaConfig)(nextConfig);
+// Check if the environment is production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Only apply the PWA wrapper for production builds
+export default isProduction ? withPWA(pwaConfig)(nextConfig as any) : nextConfig;

@@ -1,57 +1,78 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L, { LatLng } from 'leaflet';
+"use client";
 
-// Icon fix
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, Circle } from 'react-leaflet';
+import L from 'leaflet';
+import type { Dispatch, SetStateAction } from 'react';
+
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-const DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 41] });
+const DefaultIcon = L.icon({ iconUrl: icon.src, shadowUrl: iconShadow.src, iconAnchor: [12, 41] });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-interface ChangeViewProps { center: LatLng; zoom: number; }
-function ChangeView({ center, zoom }: ChangeViewProps) {
+interface Position { lat: number; lng: number; }
+
+function ChangeView({ center }: { center: Position; }) {
   const map = useMap();
-  map.setView(center, zoom);
+  map.panTo(center);
+  React.useEffect(() => {
+    const timer = setTimeout(() => map.invalidateSize(), 100);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+}
+
+function MapInteractionController({ isInteractive }: { isInteractive: boolean }) {
+  const map = useMap();
+  React.useEffect(() => {
+    if (isInteractive) {
+      map.dragging.enable();
+      map.scrollWheelZoom.enable();
+      map.touchZoom.enable();
+      map.doubleClickZoom.enable();
+    } else {
+      map.dragging.disable();
+      map.scrollWheelZoom.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+    }
+  }, [isInteractive, map]);
+
   return null;
 }
 
 interface MapComponentProps {
-  initialPosition: LatLng;
-  onPositionChange: (newPosition: LatLng) => void;
+  position: Position;
+  setPosition: Dispatch<SetStateAction<Position>>;
+  isInteractive: boolean;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ initialPosition, onPositionChange }) => {
-  const [position, setPosition] = useState<LatLng>(initialPosition);
-  const markerRef = useRef<L.Marker | null>(null);
-
-  useEffect(() => { setPosition(initialPosition); }, [initialPosition]);
+const MapComponent: React.FC<MapComponentProps> = ({ position, setPosition, isInteractive }) => {
+  function ClickEventHandler() {
+    useMapEvents({
+      click(e) {
+        setPosition({ lat: e.latlng.lat, lng: e.latlng.lng });
+      },
+    });
+    return null;
+  }
   
-  const eventHandlers = useMemo(() => ({
-    dragend() {
-      const marker = markerRef.current;
-      if (marker) {
-        const newPos = marker.getLatLng();
-        setPosition(newPos);
-        onPositionChange(newPos);
-      }
-    },
-  }), [onPositionChange]);
+  const mapPosition = new L.LatLng(position.lat, position.lng);
 
   return (
-    <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
-      <ChangeView center={position} zoom={13} />
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef}>
-        <Popup>
-          <div className="space-y-1 text-center">
-            <p className="font-bold">You can drag this pin.</p>
-            <p className="text-sm text-gray-700">
-              Lat: {position.lat.toFixed(4)}, Lng: {position.lng.toFixed(4)}
-            </p>
-          </div>
-        </Popup>
+    <MapContainer center={mapPosition} zoom={13} style={{ height: '100%', width: '100%' }}>
+      <MapInteractionController isInteractive={isInteractive} />
+      <ChangeView center={position} />
+      <ClickEventHandler />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' />
+      <Marker draggable={false} position={mapPosition}>
+        <Popup>Pin Position: {mapPosition.lat.toFixed(4)}, {mapPosition.lng.toFixed(4)}</Popup>
       </Marker>
+      <Circle
+        center={mapPosition}
+        radius={5}
+        pathOptions={{ color: 'royalblue', fillColor: 'royalblue', fillOpacity: 0.1, weight: 1 }}
+      />
     </MapContainer>
   );
 };

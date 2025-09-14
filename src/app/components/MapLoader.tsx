@@ -1,12 +1,28 @@
-import dynamic from 'next/dynamic';
+"use client";
 
-const MapLoader = dynamic(() => import('@/app/components/MapComponent'), {
+import dynamic from 'next/dynamic';
+import type { Dispatch, SetStateAction } from 'react';
+
+// Define the props that the loader will accept and pass through.
+interface MapLoaderProps {
+  position: { lat: number; lng: number; };
+  setPosition: Dispatch<SetStateAction<{ lat: number; lng: number; }>>;
+  isInteractive: boolean;
+}
+
+// Dynamically import the MapComponent
+const DynamicMap = dynamic(() => import('./MapComponent'), {
     ssr: false,
     loading: () => (
-        <div className="flex h-screen w-full items-center justify-center">
-            <h2 className="text-xl font-semibold">Loading Map...</h2>
-        </div>
+      <div style={{ height: "100%", width: "100%", display: "grid", placeContent: "center", backgroundColor: "#e2e8f0" }}>
+        <h2>Loading Map...</h2>
+      </div>
     ),
 });
 
+// Create a wrapper component that correctly passes the props down
+const MapLoader = (props: MapLoaderProps) => {
+  return <DynamicMap {...props} />;
+};
+    
 export default MapLoader;

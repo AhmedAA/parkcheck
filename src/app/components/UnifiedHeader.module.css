@@ -1,0 +1,90 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #0ea5e9; /* Tailwind's sky-500 */
+  color: white;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  z-index: 10;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-right: auto; /* Pushes everything else to the right */
+}
+
+.controlsArea {
+  position: relative; /* For the results dropdown */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: white;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  color: #333;
+  background: transparent;
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.checkButton {
+  padding: 0.5rem 1.25rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0ea5e9; /* sky-500 */
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.checkButton:hover {
+  background-color: #0284c7; /* sky-600 */
+}
+
+.checkButton:disabled {
+  background-color: #9ca3af; /* gray-400 */
+  cursor: not-allowed;
+}
+
+.searchResults {
+  position: absolute;
+  top: 110%; /* Position below the search bar */
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  color: #333;
+  z-index: 20;
+}
+
+.searchItem {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+.searchItem:last-child {
+  border-bottom: none;
+}
+.searchItem:hover {
+  background-color: #f0f9ff; /* sky-100 */
+}

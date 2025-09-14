@@ -1,0 +1,129 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContainer {
+  width: 100%;
+  max-width: 26rem; /* Make the modal a bit smaller */
+  background-color: #F0F4F8;
+  border-radius: 1.5rem; /* Apply radius to all corners */
+  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+  animation: fadeInScaleUp 0.4s ease-out;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: #00AEEF;
+  color: white;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+
+.content {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #333;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.separator {
+  margin: 1.5rem 0;
+  border: 0;
+  height: 2px;
+}
+
+.allowed {
+  background-color: #52D869; /* Green */
+}
+
+.disallowed {
+  background-color: #FF4F4F; /* Red */
+}
+
+.detailsGrid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4A4A4A;
+}
+
+.detailItem p {
+  margin: 0;
+}
+
+.detailLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.footer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.checkButton {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #00AEEF;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkButton:hover {
+  background-color: #0095CC;
+}
+
+.disclaimer {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* Keyframe animations */
+@keyframes fadeInScaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,50 +1,51 @@
 import { openDB, DBSchema } from 'idb';
 
-// --- TypeScript Interfaces ---
 interface GeoJSONPoint {
   type: "Point";
-  coordinates: [number, number]; // [longitude, latitude]
+  coordinates: [number, number];
 }
 
-interface GeoJSONFeature {
+interface GeoJSONLineString {
+  type: "LineString";
+  coordinates: [number, number][];
+}
+
+interface GeoJSONMultiLineString {
+  type: "MultiLineString";
+  coordinates: [number, number][][];
+}
+
+interface ParkingProperties {
+  vejnavn?: string;
+  p_pladstype?: string;
+  p_antal?: number;
+  betalingszone?: string;
+}
+
+export interface GeoJSONFeature {
   type: "Feature";
-  properties: object;
-  geometry: GeoJSONPoint;
+  properties: ParkingProperties;
+  geometry: GeoJSONPoint | GeoJSONLineString | GeoJSONMultiLineString | null;
 }
 
 export interface GeoJSONFeatureCollection {
-  type: "FeatureCollection";
-  features: GeoJSONFeature[];
+  type: "FeatureCollection",
+  features: GeoJSONFeature[],
 }
 
-interface MyPwaDB extends DBSchema {
+interface ParkcheckDB extends DBSchema {
   'geojson-store': {
     key: string;
     value: GeoJSONFeatureCollection;
   };
 }
 
-// --- Database Logic ---
-const DB_NAME = 'MyPWA-DB';
+const DB_NAME = 'Parkcheck-DB';
 const STORE_NAME = 'geojson-store';
 const GEOJSON_KEY = 'main-geojson';
 
-const defaultGeoJSON: GeoJSONFeatureCollection = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "Point",
-        coordinates: [12.3546, 55.6722] // Defaults to Albertslund, Denmark
-      }
-    }
-  ]
-};
-
 async function initDB() {
-  const db = await openDB<MyPwaDB>(DB_NAME, 1, {
+  const db = await openDB<ParkcheckDB>(DB_NAME, 1, {
     upgrade(db) {
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME);
@@ -57,7 +58,15 @@ async function initDB() {
 export const loadGeoJSON = async (): Promise<GeoJSONFeatureCollection> => {
   const db = await initDB();
   const storedData = await db.get(STORE_NAME, GEOJSON_KEY);
-  return storedData || defaultGeoJSON;
+
+  if (storedData) {
+    return storedData;
+  }
+  
+  return {
+    type: "FeatureCollection",
+    features: [],
+  };
 };
 
 export const saveGeoJSON = async (geoJsonData: GeoJSONFeatureCollection): Promise<void> => {

@@ -1,77 +1,80 @@
-"use client"; // This is crucial! It marks the component as a Client Component.
+"use client";
 
 import React, { useState, useEffect } from 'react';
-import { LatLng } from 'leaflet';
-import { loadGeoJSON, saveGeoJSON, GeoJSONFeatureCollection } from '@/app/storage';
+import NextImage from 'next/image'; 
 import MapLoader from './components/MapLoader';
+import ResultModal from './components/ResultModal';
+import { syncDataIfNeeded } from '../lib/dataSync';
+import UnifiedHeader from './components/UnifiedHeader';
+import { useParkingLookup } from '../hooks/useParkingLookup';
+import styles from './Page.module.css';
+import ParkcheckLogo from '../../public/icons/Parkcheck_Logo.svg';
+
+interface Position { lat: number; lng: number; }
+interface SearchResult { x: number; y: number; label: string; }
+
+const COPENHAGEN_CENTER: Position = { lat: 55.6761, lng: 12.5683 };
 
 export default function Home() {
-  const [geoJsonData, setGeoJsonData] = useState<GeoJSONFeatureCollection | null>(null);
-  const [pinPosition, setPinPosition] = useState<LatLng | null>(null);
+  const [isSyncing, setIsSyncing] = useState(true);
+  const [result, setResult] = useState<any | null>(null);
+  const [position, setPosition] = useState<Position>(COPENHAGEN_CENTER);
+  const { isLoading, lookup } = useParkingLookup();
 
   useEffect(() => {
-    const initialize = async () => {
-      if (typeof window !== 'undefined') {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            setPinPosition(new LatLng(latitude, longitude));
-
-            const initialGeoJSON = await loadGeoJSON();
-            initialGeoJSON.features[0].geometry.coordinates = [longitude, latitude];
-            setGeoJsonData(initialGeoJSON);
-          },
-          async (error) => {
-            console.error("Geolocation error:", error);
-            const lastSavedData = await loadGeoJSON();
-            const [lng, lat] = lastSavedData.features[0].geometry.coordinates;
-            setPinPosition(new LatLng(lat, lng));
-            setGeoJsonData(lastSavedData);
-          },
-          { enableHighAccuracy: true }
-        );
-      }
+    const runSync = async () => {
+      const minimumDisplayTime = new Promise(resolve => setTimeout(resolve, 2000));
+      await Promise.all([syncDataIfNeeded(), minimumDisplayTime]);
+      setIsSyncing(false);
     };
-    initialize();
+    runSync();
   }, []);
 
-  const handlePositionChange = (newPos: LatLng) => {
-    setPinPosition(newPos);
-    if (geoJsonData) {
-      const updatedGeoJson: GeoJSONFeatureCollection = JSON.parse(JSON.stringify(geoJsonData));
-      updatedGeoJson.features[0].geometry.coordinates = [newPos.lng, newPos.lat];
-      setGeoJsonData(updatedGeoJson);
-    }
+  const handleSearchResult = (searchResult: SearchResult) => {
+    setPosition({ lat: searchResult.y, lng: searchResult.x });
   };
   
-  const handleSave = () => {
-    if (geoJsonData) {
-      saveGeoJSON(geoJsonData);
-      alert("Location saved!");
-    }
+  const handleCloseModal = () => {
+    setResult(null);
   };
 
-  return (
-    <main className="relative h-screen w-screen">
-      {pinPosition ? (
-        <MapLoader 
-          initialPosition={pinPosition} 
-          onPositionChange={handlePositionChange} 
-        />
-      ) : (
-        <div className="flex h-full flex-col items-center justify-center">
-            <h1 className="text-2xl font-bold">Getting your location...</h1>
-            <p className="text-gray-500">Please grant permission.</p>
+  if (isSyncing) {
+    return (
+      <div className={styles.splashScreen}>
+        <div className={styles.splashContent}>
+          <div className={styles.pulseCircle}></div>
+          <div className={styles.splashForeground}>
+            <NextImage src={ParkcheckLogo} alt="Parkcheck Logo" width={128} height={128} />
+            <p className={styles.splashText}>Parkcheck</p>
+          </div>
         </div>
-      )}
-      <div className="fixed bottom-5 left-1/2 z-[1000] -translate-x-1/2">
-        <button 
-          onClick={handleSave} 
-          className="rounded-lg bg-blue-600 px-6 py-3 font-bold text-white shadow-lg transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Save Pin Location
-        </button>
       </div>
-    </main>
+    );
+  }
+
+  return (
+    <div className={styles.appContainer}>
+      <UnifiedHeader 
+        isLoading={isLoading}
+        onLookupClick={() => lookup(position, setResult)}
+        onSearchResult={handleSearchResult}
+      />
+      
+      <main className={styles.mainContent}>
+        <MapLoader 
+          position={position}
+          setPosition={setPosition}
+          isInteractive={!result}
+        />
+      </main>
+
+      {result && (
+        <ResultModal 
+          status={result.status}
+          data={result.data}
+          onClose={handleCloseModal}
+        />
+      )}
+    </div>
   );
 }
