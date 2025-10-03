@@ -28,6 +28,20 @@ export default function Home() {
       setIsSyncing(false);
     };
     runSync();
+
+    navigator.geolocation.getCurrentPosition(
+      (location) => {
+        setPosition({ 
+          lat: location.coords.latitude, 
+          lng: location.coords.longitude 
+        });
+      },
+
+      (error) => {
+        console.warn(`Geolocation error: ${error.message}`);
+      }
+    );
+
   }, []);
 
   const handleSearchResult = (searchResult: SearchResult) => {
