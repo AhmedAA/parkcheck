@@ -15,7 +15,7 @@ interface GeoJSONMultiLineString {
   coordinates: [number, number][][];
 }
 
-interface ParkingProperties {
+export interface ParkingProperties {
   vejnavn?: string;
   p_pladstype?: string;
   p_antal?: number;

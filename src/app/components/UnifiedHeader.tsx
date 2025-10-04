@@ -6,6 +6,10 @@ import styles from './UnifiedHeader.module.css';
 import ParkcheckLogo from '../../../public/icons/Parkcheck_Logo.svg';
 
 interface SearchResult { x: number; y: number; label: string; }
+interface GeosearchProvider {
+  search(options: { query: string }): Promise<SearchResult[]>;
+}
+
 interface HeaderProps {
   isLoading: boolean;
   onLookupClick: () => void;
@@ -15,7 +19,7 @@ interface HeaderProps {
 const UnifiedHeader: React.FC<HeaderProps> = ({ isLoading, onLookupClick, onSearchResult }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [provider, setProvider] = useState<any>(null);
+  const [provider, setProvider] = useState<GeosearchProvider | null>(null);
 
   useEffect(() => {
     const initializeProvider = async () => {

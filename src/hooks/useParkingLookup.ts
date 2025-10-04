@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback } from 'react';
-import { loadGeoJSON, GeoJSONFeature } from '../lib/storage';
+import { useRouter } from 'next/navigation';
+import { loadGeoJSON, GeoJSONFeature, ParkingProperties } from '../lib/storage';
 
 import { point, lineString } from '@turf/helpers';
 import distance from '@turf/distance';
@@ -9,10 +10,14 @@ import pointToLineDistance from '@turf/point-to-line-distance';
 import { Point, LineString } from 'geojson';
 
 interface Position { lat: number; lng: number; }
-interface LookupResult { status: 'allowed' | 'disallowed'; data?: any; }
+export interface LookupResult { 
+  status: 'allowed' | 'disallowed'; 
+  data?: ParkingProperties; 
+}
 
 export function useParkingLookup() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const lookup = useCallback(async (position: Position, onComplete: (result: LookupResult) => void) => {
     if (!position) return;
@@ -64,7 +69,7 @@ export function useParkingLookup() {
     } finally {
       setIsLoading(false);
     }
-  });
+  }, [router]);
 
   return { isLoading, lookup };
 }

@@ -1,11 +1,28 @@
-import { saveGeoJSON, GeoJSONFeatureCollection } from './storage';
+import { saveGeoJSON, GeoJSONFeatureCollection, GeoJSONFeature } from './storage';
 
 const PARKING_DATA_URL = 'https://wfs-kbhkort.kk.dk/k101/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=k101:p_pladser&outputFormat=json&SRSNAME=EPSG:4326';
 const SYNC_TIMESTAMP_KEY = 'parkingDataSyncTimestamp';
 const SYNC_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
 
-function optimizeGeoJSON(rawData: any): GeoJSONFeatureCollection {
-  const optimizedFeatures = rawData.features.map((feature: any) => {
+interface RawProperties {
+  vejnavn?: string;
+  vejstatus?: string;
+  antal_pladser?: number;
+  p_ordning?: string;
+}
+
+interface RawFeature {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  geometry: any;
+  properties: RawProperties;
+}
+
+interface RawGeoJSON {
+  features: RawFeature[];
+}
+
+function optimizeGeoJSON(rawData: RawGeoJSON): GeoJSONFeatureCollection {
+  const optimizedFeatures = rawData.features.map((feature): GeoJSONFeature => {
     return {
       type: "Feature",
       geometry: feature.geometry,

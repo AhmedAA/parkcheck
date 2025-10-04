@@ -6,7 +6,7 @@ import MapLoader from './components/MapLoader';
 import ResultModal from './components/ResultModal';
 import { syncDataIfNeeded } from '../lib/dataSync';
 import UnifiedHeader from './components/UnifiedHeader';
-import { useParkingLookup } from '../hooks/useParkingLookup';
+import { useParkingLookup, type LookupResult } from '../hooks/useParkingLookup';
 import styles from './Page.module.css';
 import ParkcheckLogo from '../../public/icons/Parkcheck_Logo.svg';
 
@@ -17,7 +17,7 @@ const COPENHAGEN_CENTER: Position = { lat: 55.6761, lng: 12.5683 };
 
 export default function Home() {
   const [isSyncing, setIsSyncing] = useState(true);
-  const [result, setResult] = useState<any | null>(null);
+  const [result, setResult] = useState<LookupResult | null>(null);
   const [position, setPosition] = useState<Position>(COPENHAGEN_CENTER);
   const { isLoading, lookup } = useParkingLookup();
 
