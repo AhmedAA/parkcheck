@@ -2,7 +2,7 @@
   "name": "Parkcheck",
   "short_name": "Parkcheck",
   "description": "Check if you have parked legally, prevent fines.",
-  "start_url": ".",
+  "start_url": "/parkcheck",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
