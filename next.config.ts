@@ -1,8 +1,14 @@
 import type { NextConfig } from 'next';
 import withPWA from 'next-pwa';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const nextConfig: NextConfig = {
-  // Your Next.js config options go here
+  output: "export",
+  basePath: isProduction ? '/parkcheck' : '',
+  images: {
+    unoptimized: true
+  }
 };
 
 const pwaConfig = {
@@ -10,9 +16,6 @@ const pwaConfig = {
   register: true,
   skipWaiting: true,
 };
-
-// Check if the environment is production
-const isProduction = process.env.NODE_ENV === 'production';
 
 // Only apply the PWA wrapper for production builds
 export default isProduction ? withPWA(pwaConfig)(nextConfig as any) : nextConfig;
