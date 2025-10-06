@@ -7,7 +7,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Parkcheck",
-  description: "Check if you have parked legally."
+  description: "Check if you have parked legally.",
+  manifest: "./manifest.json"
 };
 
 export default function RootLayout({
