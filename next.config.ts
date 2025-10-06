@@ -1,20 +1,21 @@
 import type { NextConfig } from 'next';
-import withPWA from 'next-pwa';
+import withPWAInit from '@ducanh2912/next-pwa';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const basePath = '/parkcheck';
 
 const nextConfig: NextConfig = {
-  output: "export",
+  output: 'export',
+  basePath: isProduction ? basePath : '',
+  assetPrefix: isProduction ? basePath : '',
   images: {
-    unoptimized: true
-  }
+    unoptimized: true,
+  },
 };
 
-const pwaConfig = {
+const withPWA = withPWAInit({
   dest: 'public',
-  register: true,
-  skipWaiting: true,
-};
+  register: true
+});
 
-// Only apply the PWA wrapper for production builds
-export default isProduction ? withPWA(pwaConfig)(nextConfig as any) : nextConfig;
+export default withPWA(nextConfig);
