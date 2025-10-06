@@ -20,6 +20,8 @@ export interface ParkingProperties {
   p_pladstype?: string;
   p_antal?: number;
   betalingszone?: string;
+  vejside?: string;
+  p_type?: string;
 }
 
 export interface GeoJSONFeature {

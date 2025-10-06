@@ -14,6 +14,8 @@ interface ParkingData {
   p_pladstype?: string;
   p_antal?: number;
   betalingszone?: string;
+  vejside?: string;
+  p_type?: string;
 }
 
 interface ResultModalProps {
@@ -46,11 +48,11 @@ const ResultModal: React.FC<ResultModalProps> = ({ status, data, onClose }) => {
              <div className={styles.detailsGrid}>
                 <div className={styles.detailItem}>
                   <Image src={IconLocationPin} alt="Location" width={64} height={64} />
-                  <p className={styles.detailLabel}>{data?.vejnavn}</p>
+                  <p className={styles.detailLabel}>{data?.vejnavn}<br/>{data?.vejside}</p>
                 </div>
                 <div className={styles.detailItem}>
                   <Image src={IconParktype} alt="Parking Type" width={64} height={64} />
-                  <p>{data?.p_pladstype}</p>
+                  <p>{data?.p_pladstype} - {data?.p_type}</p>
                 </div>
                 <div className={styles.detailItem}>
                   <Image src={IconAmount} alt="Amount" width={64} height={64} />

@@ -6,6 +6,7 @@
   background-color: #0ea5e9; /* Tailwind's sky-500 */
   color: white;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  position: relative;
   z-index: 10;
 }
 

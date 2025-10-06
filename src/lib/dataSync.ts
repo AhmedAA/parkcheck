@@ -9,6 +9,8 @@ interface RawProperties {
   vejstatus?: string;
   antal_pladser?: number;
   p_ordning?: string;
+  vejside?: string;
+  p_type?: string;
 }
 
 interface RawFeature {
@@ -31,6 +33,8 @@ function optimizeGeoJSON(rawData: RawGeoJSON): GeoJSONFeatureCollection {
         p_pladstype: feature.properties.vejstatus,
         p_antal: feature.properties.antal_pladser,
         betalingszone: feature.properties.p_ordning,
+        vejside: feature.properties.vejside,
+        p_type: feature.properties.p_type
       },
     };
   });
