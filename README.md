@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Parkcheck is an app to help check if you have parked legally in European cities.
+It uses your GPS location, from your device, to pinpoint exactly where you have
+parked, and you are able to fine tune the location by moving the pin. If you do
+not want to share your location, then that is also perfectly fine, there is a
+search bar and you can place the pin accurately for a correct result.
 
-## Getting Started
+A hosted version is running on GitHub Pages here:
+<https://ahmedaa.github.io/parkcheck>.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## How it works
+
+The app pulls data that is publicly available from municipalities in EU, and
+stores it in the IndexedDB in the browser. The data pulled is GeoJSON formatted.
+
+Based on the user's location, it will then provide simple feedback on whether or
+not it is permissible to park in the spot, and what the conditions for parking
+are (time restrictions, payment requirements, etc).
+
+The information shown is based solely on the quality of the raw data. Some
+municipalities have much higher data quality than others, which unfortunately
+makes the quality of the app differ.
+
+### What it does
+
+- Helps you identifying places that are legal to park.
+
+### What it does not
+
+- Does not know whether there are available spots in a given location.
+
+
+## Development
+
+If you want to build on this, I am open for PRs. Or just fork and go crazy, up
+to you.
+
+```shell
+npm install --legacy-peer-deps
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then start a dev server with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+The app is currently in a bit of a crude state. The following needs to be improved:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- The storage and dataSync classes might need to be merged into a single file
+  per city (since data quality and fields vary from city to city).
+- Ask the user what city they want data from when they first start the app.
+- Add settings to allow users to manage which cities they want data for.
+- Make the user able to set a "home city", so the map defaults to that city.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Once the above is in place, I personally wanted to expand with other Danish
+cities, such as Frederiksberg, Aarhus, Aalborg, and Odense. With that in place,
+the app should be mature enough to rapidly expand with the biggest cities all
+over Europe, and then gradually build out from there.
