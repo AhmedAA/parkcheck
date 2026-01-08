@@ -1,26 +1,29 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import 'leaflet/dist/leaflet.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const isProd = process.env.NODE_ENV === "production";
+const basePath = isProd ? "/parkcheck" : "";
 
 export const metadata: Metadata = {
-  title: "Parkcheck",
-  description: "Check if you have parked legally.",
-  manifest: "./manifest.json"
+  title: "ParkCheck",
+  description: "Check your parking zones accurately",
+  // We manually prepend the basePath here to ensure GitHub Pages finds it
+  manifest: `${basePath}/manifest.json`,
+  icons: {
+    apple: `${basePath}/icons/icon-192x192.png`,
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
+    <html lang="da">
       <head>
+        <meta name="theme-color" content="#007bff" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

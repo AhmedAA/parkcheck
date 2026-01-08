@@ -3,7 +3,7 @@
   "short_name": "Parkcheck",
   "description": "Check if you have parked legally, prevent fines.",
   "id": "/parkcheck/",
-  "start_url": ".",
+  "start_url": "/parkcheck/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
@@ -11,12 +11,14 @@
     {
       "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
@@ -24,13 +26,15 @@
       "src": "screenshots/screenshot-mobile.png",
       "type": "image/png",
       "sizes": "540x1170",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "ParkCheck Mobile View"
     },
     {
       "src": "screenshots/screenshot-desktop.png",
       "type": "image/png",
       "sizes": "1920x1080",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "ParkCheck Desktop View"
     }
   ]
 }
