@@ -1,22 +1,15 @@
-import type { NextConfig } from 'next';
-import withPWA from 'next-pwa';
+import withSerwistInit from "@serwist/next";
+import type { NextConfig } from "next";
 
-const isProduction = process.env.NODE_ENV === 'production';
+const withSerwist = withSerwistInit({
+  swSrc: "app/sw.ts",
+  swDest: "public/sw.js",
+  reloadOnOnline: true,
+  disable: process.env.NODE_ENV === "development",
+});
 
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: isProduction ? '/parkcheck' : '',
-  assetPrefix: isProduction ? '/parkcheck' : '',
-  images: {
-    unoptimized:true
-  }
+  reactStrictMode: true,
 };
 
-const pwaConfig = {
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-};
-
-// Only apply the PWA wrapper for production builds
-export default isProduction ? withPWA(pwaConfig)(nextConfig as any) : nextConfig;
+export default withSerwist(nextConfig);
