@@ -5,9 +5,13 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, Circle } 
 import L from 'leaflet';
 import type { Dispatch, SetStateAction } from 'react';
 
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-const DefaultIcon = L.icon({ iconUrl: icon.src, shadowUrl: iconShadow.src, iconAnchor: [12, 41] });
+const DefaultIcon = L.icon({
+  iconUrl: '/images/marker-icon.png',
+  shadowUrl: '/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
 L.Marker.prototype.options.icon = DefaultIcon;
 
 interface Position { lat: number; lng: number; }
