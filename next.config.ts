@@ -13,7 +13,7 @@ const withSerwist = withSerwistInit({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   basePath: isProd ? "/parkcheck" : "",
-  assetPrefix: isProd ? "/parkcheck/" : "/",
+  assetPrefix: isProd ? "/parkcheck" : "",
   images: {
     unoptimized: true,
   },

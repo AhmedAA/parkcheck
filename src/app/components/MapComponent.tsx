@@ -5,9 +5,16 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, Circle } 
 import L from 'leaflet';
 import type { Dispatch, SetStateAction } from 'react';
 
+// This handles the subfolder prefix for GitHub Pages dynamically
+const getCorrectPath = (path: string) => {
+  // In production, Next.js doesn't automatically prepend basePath to strings in JS
+  const prefix = process.env.NODE_ENV === 'production' ? '/parkcheck' : '';
+  return `${prefix}${path}`;
+};
+
 const DefaultIcon = L.icon({
-  iconUrl: '/images/marker-icon.png',
-  shadowUrl: '/images/marker-shadow.png',
+  iconUrl: getCorrectPath('/images/marker-icon.png'),
+  shadowUrl: getCorrectPath('/images/marker-shadow.png'),
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
